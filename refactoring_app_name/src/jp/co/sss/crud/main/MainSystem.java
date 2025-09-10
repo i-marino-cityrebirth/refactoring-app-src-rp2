@@ -14,6 +14,7 @@ import jp.co.sss.crud.service.EmployeeFindByDeptIdService;
 import jp.co.sss.crud.service.EmployeeFindByEmpNameService;
 import jp.co.sss.crud.service.EmployeeRegisterService;
 import jp.co.sss.crud.service.EmployeeUpdateService;
+import jp.co.sss.crud.service.IEmployeeService;
 import jp.co.sss.crud.util.Constants;
 
 /**
@@ -63,41 +64,42 @@ public class MainSystem {
 			// メニュー番号の入力
 			String menuNoInput = br.readLine();
 			menuNo = Integer.parseInt(menuNoInput);
+			IEmployeeService employeeService;
 
 			// 機能の呼出
 			switch (menuNo) {
 			case 1:
+				employeeService = IEmployeeService.getInstanceByMenuNo(menuNo);
 				// 全件表示機能の呼出
 				employeeAllFindService.execute();
 				break;
 
 			case 2:
-
+				employeeService = IEmployeeService.getInstanceByMenuNo(menuNo);
 				// 検索機能の呼出
 				employeeFindByEmpNameService.execute();
 				break;
 
 			case 3:
-
+				employeeService = IEmployeeService.getInstanceByMenuNo(menuNo);
 				// 検索機能の呼出
 				employeeFindByDeptIdService.execute();
 				break;
 
 			case 4:
-
+				employeeService = IEmployeeService.getInstanceByMenuNo(menuNo);
 				employeeRegisterService.execute();
 				break;
 
 			case 5:
-
+				employeeService = IEmployeeService.getInstanceByMenuNo(menuNo);
 				// 更新機能の呼出
 				employeeUpdateService.execute();
-				System.out.println(Constants.EMP_INF_UPDATE);
 
 				break;
 
 			case 6:
-
+				employeeService = IEmployeeService.getInstanceByMenuNo(menuNo);
 				// 削除機能の呼出
 				employeeDeleteService.execute();
 				break;

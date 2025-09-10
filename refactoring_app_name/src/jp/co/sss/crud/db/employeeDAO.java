@@ -53,7 +53,6 @@ public class employeeDAO {
 
 				lEmployee.add(employee);
 			}
-
 			//DTO を戻す 
 			return lEmployee;
 
@@ -254,6 +253,8 @@ public class employeeDAO {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		List<Employee> lEmployee = new ArrayList<>();
+		int result = 0;
+		ResultSet resultSet = null;
 
 		try {
 			// データベースに接続
@@ -284,8 +285,42 @@ public class employeeDAO {
 			preparedStatement.setInt(5, Integer.parseInt(empId));
 
 			// SQL文の実行(失敗時は戻り値0)
-			preparedStatement.executeUpdate();
+			result = preparedStatement.executeUpdate();
 
+			if (result != 0) {
+				// DBに接続
+				connection = DBManager.getConnection();
+
+				// SQL文を準備
+				StringBuffer sql = new StringBuffer(ConstantSQL.SQL_SELECT_BASIC);
+				sql.append(ConstantSQL.SQL_SELECT_BY_DEPT_ID);
+
+				// ステートメントの作成
+				preparedStatement = connection.prepareStatement(sql.toString());
+
+				// 検索条件となる値をバインド
+				preparedStatement.setInt(1, Integer.parseInt(deptId));
+
+				// SQL文を実行
+				resultSet = preparedStatement.executeQuery();
+
+				while (resultSet.next()) {
+					Employee employee = new Employee();
+					Department department = new Department();
+					//DTOへの格納
+					employee.setEmpId(resultSet.getInt("emp_id"));
+					employee.setEmpName(resultSet.getString("emp_name"));
+					employee.setGender(resultSet.getString("gender"));
+					employee.setBirthday(resultSet.getString("birthday"));
+					//department.setDeptName(resultSet.getString("dept_name"));
+					//employee.setDepartment(department);
+					employee.setDeptName(resultSet.getString("dept_name"));
+
+					lEmployee.add(employee);
+
+					System.out.println(Constants.EMP_INF_UPDATE);
+				}
+			}
 		} finally {
 			// クローズ処理
 			DBManager.close(preparedStatement);

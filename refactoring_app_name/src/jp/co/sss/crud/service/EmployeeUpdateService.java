@@ -12,6 +12,7 @@ import jp.co.sss.crud.db.employeeDAO;
 import jp.co.sss.crud.dto.Employee;
 import jp.co.sss.crud.exception.IllegalInputException;
 import jp.co.sss.crud.exception.SystemErrorException;
+import jp.co.sss.crud.io.ConsoleWriter;
 import jp.co.sss.crud.util.Constants;
 
 public class EmployeeUpdateService implements IEmployeeService {
@@ -32,6 +33,7 @@ public class EmployeeUpdateService implements IEmployeeService {
 			try {
 				try {
 					searchedEmployees = employeeDAO.update(empId);
+
 				} catch (ParseException e) {
 					// TODO 自動生成された catch ブロック
 					e.printStackTrace();
@@ -41,6 +43,7 @@ public class EmployeeUpdateService implements IEmployeeService {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 			}
+			ConsoleWriter.showEmployees(searchedEmployees);//コンソール出力
 
 		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック
